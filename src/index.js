@@ -3,11 +3,7 @@ import { Menu } from "./components/Menu.js";
 import { Pedido } from "./components/Pedido.js";
 import { enviarPedido } from "./services/api.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import {
-  getDatabase,
-  ref,
-  onValue,
-} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
 // Configuração do Firebase
 const firebaseConfig = {
@@ -37,25 +33,21 @@ window.adicionar = (item) => pedido.adicionarItem(item);
 // Buscar o cardápio dinamicamente do Firebase
 let itensCardapio = [];
 const cardapioRef = ref(db, "cardapio");
-onValue(
-  cardapioRef,
-  (snapshot) => {
-    const data = snapshot.val();
-    if (data) {
-      itensCardapio = Object.values(data).map((item) => ({
-        nome: item.nome,
-        preco: item.precoUnitario,
-      }));
-    } else {
-      itensCardapio = [];
-    }
-    renderizarCardapio(); // Renderiza após atualizar os itens
-  },
-  (error) => {
-    console.error("Erro ao buscar cardápio:", error);
-    app.innerHTML = "<p>Erro ao carregar o cardápio</p>";
+onValue(cardapioRef, (snapshot) => {
+  const data = snapshot.val();
+  if (data) {
+    itensCardapio = Object.values(data).map((item) => ({
+      nome: item.nome,
+      preco: item.precoUnitario,
+    }));
+  } else {
+    itensCardapio = [];
   }
-);
+  renderizarCardapio(); // Renderiza após atualizar os itens
+}, (error) => {
+  console.error("Erro ao buscar cardápio:", error);
+  app.innerHTML = "<p>Erro ao carregar o cardápio</p>";
+});
 
 // Função para renderizar o cardápio
 function renderizarCardapio() {
