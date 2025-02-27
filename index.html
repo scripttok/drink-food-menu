@@ -4,81 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cardápio Digital</title>
-    <link rel="stylesheet" href="src/styles/styles.css" />
-    <!-- Firebase App (necessário para inicializar) -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
-    <!-- Firebase Realtime Database -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js"></script>
+    <link rel="stylesheet" href="src/styles.css" />
+    <!-- Corrigido o caminho -->
   </head>
   <body>
-    <div id="cardapio-container">
-      <h2>Cardápio</h2>
-      <ul id="cardapio-lista"></ul>
-    </div>
     <div id="app"></div>
-    <script src="src/index.js" type="module"></script>
-    <script>
-      // Configuração do Firebase (substitua pelos seus dados reais)
-      const firebaseConfig = {
-        apiKey: "AIzaSyAto25h5ZeIJ6GPlIsyuXAdc4igrgMgzhk",
-        authDomain: "bar-do-cesar.firebaseapp.com",
-        databaseURL: "https://bar-do-cesar-default-rtdb.firebaseio.com",
-        projectId: "bar-do-cesar",
-        storageBucket: "bar-do-cesar.firebasestorage.app",
-        messagingSenderId: "525946263891",
-        appId: "1:525946263891:web:6179063c88e3f45d2c29a6",
-        measurementId: "G-7SZT212JXN",
-      };
-
-      // Inicializar o Firebase
-      firebase.initializeApp(firebaseConfig);
-      const database = firebase.database();
-
-      const cardapioLista = document.getElementById("cardapio-lista");
-
-      // Função para atualizar o cardápio na página
-      function atualizarCardapio(itens) {
-        cardapioLista.innerHTML = ""; // Limpa a lista atual
-        itens.forEach((item) => {
-          const li = document.createElement("li");
-          li.textContent = `${item.nome} - R$ ${item.precoUnitario.toFixed(2)}`;
-          cardapioLista.appendChild(li);
-        });
-      }
-
-      // Listener em tempo real para o nó 'cardapio'
-      const cardapioRef = database.ref("cardapio");
-      cardapioRef.on(
-        "value",
-        (snapshot) => {
-          const data = snapshot.val();
-          if (data) {
-            const itens = Object.values(data); // Converte o objeto em array
-            atualizarCardapio(itens);
-          } else {
-            cardapioLista.innerHTML = "<li>Sem itens no cardápio</li>";
-          }
-        },
-        (error) => {
-          console.error("Erro ao buscar cardápio:", error);
-          cardapioLista.innerHTML = "<li>Erro ao carregar o cardápio</li>";
-        }
-      );
-    </script>
-    <style>
-      #cardapio-container {
-        max-width: 600px;
-        margin: 20px auto;
-        font-family: Arial, sans-serif;
-      }
-      #cardapio-lista {
-        list-style: none;
-        padding: 0;
-      }
-      #cardapio-lista li {
-        padding: 10px;
-        border-bottom: 1px solid #ccc;
-      }
-    </style>
+    <script type="module" src="src/index.js"></script>
   </body>
 </html>
