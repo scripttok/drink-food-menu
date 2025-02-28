@@ -3,6 +3,7 @@ import {
   getDatabase,
   ref,
   push,
+  serverValue, // Importação direta de ServerValue
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
 const firebaseConfig = {
@@ -25,8 +26,8 @@ export async function enviarPedido(mesa, itens) {
       mesa: mesa,
       itens: itens, // Já está no formato correto [{ nome, quantidade }]
       status: "aguardando",
-      entregue: false, // Adicionado para compatibilidade com o app
-      timestamp: firebase.database.ServerValue.TIMESTAMP, // Alinhado com o app
+      entregue: false,
+      timestamp: serverValue.TIMESTAMP, // Usando serverValue importado
     };
     await push(ref(db, "pedidos"), pedido);
     alert("Pedido enviado para a cozinha!");
