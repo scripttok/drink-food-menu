@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getDatabase, ref, push, update, get, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js"; // Adicionado serverTimestamp
+import { getDatabase, ref, push, update, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAto25h5ZeIJ6GPlIsyuXAdc4igrgMgzhk",
@@ -15,23 +15,13 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// Fichas técnicas dos itens do cardápio (alinhado com o app)
-const fichasTecnicas = {
-  Agua_Garrafa_220ml: { Agua_Garrafa_220ml: 1 },
-  Agua_bonafonte_2lt: { Agua_bonafonte_2lt: 1 },
-  Cervejas_Brahma_Garrafa_600ml: { Cervejas_Brahma_Garrafa_600ml: 1 },
-  Cervejas_Brahma_Lata_220ml: { Cervejas_Brahma_Lata_220ml: 1 },
-  Cervejas_Heineken_Garrafa_600ml: { Cervejas_Heineken_Garrafa_600ml: 1 },
-  Cervejas_Heineken_Lata_250ml: { Cervejas_Heineken_Lata_250ml: 1 },
-  Salgados_Coxinha: { Diverso: 1 },
-  Vinhos_Brancos: { Vinhos_Brancos: 1 },
-  "Pizza Margherita": { Agua: 0.1 },
-  Hambúrguer: { cerveja: 0.2 },
-  Refrigerante: { Refrigerante: 1 },
-  "Suco de laranja": { "Suco de laranja": 1 },
-};
+async function getFichasTecnicas() {
+  const snapshot = await get(ref(db, "fichasTecnicas"));
+  const data = snapshot.val() || {};
+  console.log("Fichas técnicas carregadas na web:", data);
+  return data;
+}
 
-// Função para remover do estoque (usando API modular)
 async function removerEstoque(itemId, quantidade) {
   const refEstoque = ref(db, `estoque/${itemId}`);
   const snapshot = await get(refEstoque);
@@ -44,7 +34,7 @@ async function removerEstoque(itemId, quantidade) {
 
 export async function enviarPedido(mesa, itens) {
   try {
-    // Verificar e atualizar o estoque
+    const fichasTecnicas = await getFichasTecnicas();
     const estoqueSnapshot = await get(ref(db, "estoque"));
     const estoqueAtual = estoqueSnapshot.val() || {};
     const estoquePorId = Object.entries(estoqueAtual).reduce(
@@ -60,10 +50,12 @@ export async function enviarPedido(mesa, itens) {
 
     itens.forEach(({ nome, quantidade }) => {
       const ficha = fichasTecnicas[nome];
+      console.log(`Verificando ficha técnica para ${nome}:`, ficha);
       if (ficha) {
         Object.entries(ficha).forEach(([estoqueId, quantidadePorUnidade]) => {
           const quantidadeNecessaria = quantidadePorUnidade * quantidade;
           const estoqueDisponivel = estoquePorId[estoqueId] || 0;
+          console.log(`Estoque disponível para ${estoqueId}: ${estoqueDisponivel}, necessário: ${quantidadeNecessaria}`);
           if (estoqueDisponivel < quantidadeNecessaria) {
             itensFaltando.push(
               `${nome} (falta ${quantidadeNecessaria - estoqueDisponivel} de ${estoqueId})`
@@ -75,6 +67,8 @@ export async function enviarPedido(mesa, itens) {
             });
           }
         });
+      } else {
+        console.warn(`Ficha técnica não encontrada para ${nome}`);
       }
     });
 
@@ -82,20 +76,18 @@ export async function enviarPedido(mesa, itens) {
       throw new Error(`Estoque insuficiente para: ${itensFaltando.join(", ")}`);
     }
 
-    // Atualizar o estoque
     await Promise.all(
       atualizacoesEstoque.map(({ id, quantidade }) =>
         removerEstoque(id, quantidade)
       )
     );
 
-    // Salvar o pedido
     const pedido = {
-      mesa: mesa,
-      itens: itens,
+      mesa,
+      itens,
       status: "aguardando",
       entregue: false,
-      timestamp: serverTimestamp(), // Usando serverTimestamp da API modular
+      timestamp: { ".sv": "timestamp" },
     };
     await push(ref(db, "pedidos"), pedido);
     alert("Pedido enviado para a cozinha!");
