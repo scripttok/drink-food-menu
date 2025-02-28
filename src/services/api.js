@@ -3,7 +3,7 @@ import {
   getDatabase,
   ref,
   push,
-  serverValue, // Importação direta de ServerValue
+  serverValue,
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
 const firebaseConfig = {
