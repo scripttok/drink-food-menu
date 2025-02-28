@@ -21,14 +21,18 @@ const db = getDatabase(app);
 
 export async function enviarPedido(mesa, itens) {
   try {
-    await push(ref(db, "pedidos"), {
+    const pedido = {
       mesa: mesa,
-      itens: itens,
+      itens: itens, // Já está no formato correto [{ nome, quantidade }]
       status: "aguardando",
-      timestamp: new Date().toISOString(),
-    });
+      entregue: false, // Adicionado para compatibilidade com o app
+      timestamp: firebase.database.ServerValue.TIMESTAMP, // Alinhado com o app
+    };
+    await push(ref(db, "pedidos"), pedido);
     alert("Pedido enviado para a cozinha!");
+    console.log("Pedido enviado:", pedido);
   } catch (error) {
     alert("Erro ao enviar o pedido: " + error.message);
+    console.error("Erro ao enviar pedido:", error);
   }
 }
