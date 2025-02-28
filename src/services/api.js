@@ -1,6 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getDatabase, ref, push, update, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js"; // Substituído once por get
-import * as firebaseCompat from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js";
+import { getDatabase, ref, push, update, get, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js"; // Adicionado serverTimestamp
 
 const firebaseConfig = {
   apiKey: "AIzaSyAto25h5ZeIJ6GPlIsyuXAdc4igrgMgzhk",
@@ -35,7 +34,7 @@ const fichasTecnicas = {
 // Função para remover do estoque (usando API modular)
 async function removerEstoque(itemId, quantidade) {
   const refEstoque = ref(db, `estoque/${itemId}`);
-  const snapshot = await get(refEstoque); // Substituído once por get
+  const snapshot = await get(refEstoque);
   const item = snapshot.val();
   if (!item) throw new Error(`Item "${itemId}" não encontrado no estoque.`);
   const novaQuantidade = Math.max(0, (item.quantidade || 0) - quantidade);
@@ -46,7 +45,7 @@ async function removerEstoque(itemId, quantidade) {
 export async function enviarPedido(mesa, itens) {
   try {
     // Verificar e atualizar o estoque
-    const estoqueSnapshot = await get(ref(db, "estoque")); // Substituído once por get
+    const estoqueSnapshot = await get(ref(db, "estoque"));
     const estoqueAtual = estoqueSnapshot.val() || {};
     const estoquePorId = Object.entries(estoqueAtual).reduce(
       (acc, [id, value]) => {
@@ -96,7 +95,7 @@ export async function enviarPedido(mesa, itens) {
       itens: itens,
       status: "aguardando",
       entregue: false,
-      timestamp: firebaseCompat.database.ServerValue.TIMESTAMP,
+      timestamp: serverTimestamp(), // Usando serverTimestamp da API modular
     };
     await push(ref(db, "pedidos"), pedido);
     alert("Pedido enviado para a cozinha!");
