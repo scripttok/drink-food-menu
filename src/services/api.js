@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getDatabase, ref, push, update, once } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-import firebase from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js";
+import * as firebaseCompat from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"; // Importação como namespace
 
 const firebaseConfig = {
   apiKey: "AIzaSyAto25h5ZeIJ6GPlIsyuXAdc4igrgMgzhk",
@@ -29,7 +29,7 @@ const fichasTecnicas = {
   "Pizza Margherita": { Agua: 0.1 },
   Hambúrguer: { cerveja: 0.2 },
   Refrigerante: { Refrigerante: 1 },
-  "Suco de laranja": { "Suco de laranja": 1 }, // Adicionado para exemplo
+  "Suco de laranja": { "Suco de laranja": 1 },
 };
 
 // Função para remover do estoque (similar ao app)
@@ -96,7 +96,7 @@ export async function enviarPedido(mesa, itens) {
       itens: itens,
       status: "aguardando",
       entregue: false,
-      timestamp: firebase.database.ServerValue.TIMESTAMP,
+      timestamp: firebaseCompat.database.ServerValue.TIMESTAMP, // Usando o namespace compatível
     };
     await push(ref(db, "pedidos"), pedido);
     alert("Pedido enviado para a cozinha!");
