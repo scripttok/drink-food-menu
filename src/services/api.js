@@ -1,10 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import {
-  getDatabase,
-  ref,
-  push,
-  serverValue,
-} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+import firebase from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"; // API compatível
 
 const firebaseConfig = {
   apiKey: "AIzaSyAto25h5ZeIJ6GPlIsyuXAdc4igrgMgzhk",
@@ -27,7 +23,7 @@ export async function enviarPedido(mesa, itens) {
       itens: itens, // Já está no formato correto [{ nome, quantidade }]
       status: "aguardando",
       entregue: false,
-      timestamp: serverValue.TIMESTAMP, // Usando serverValue importado
+      timestamp: firebase.database.ServerValue.TIMESTAMP, // Usando a API compatível
     };
     await push(ref(db, "pedidos"), pedido);
     alert("Pedido enviado para a cozinha!");
