@@ -58,13 +58,11 @@ function renderizarCardapio() {
     <div>${menu.render()}</div>
     <button id="enviar-pedido">Enviar Pedido</button>
   `;
-  
-  // Adiciona eventos aos botões após renderizar
+
   document.querySelectorAll(".adicionar-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
-      const nome = btn.dataset.nome;
       const container = btn.nextElementSibling;
-      container.style.display = "block";
+      container.classList.add("visible");
       container.querySelector(".quantidade-input").focus();
     });
   });
@@ -76,14 +74,14 @@ function renderizarCardapio() {
       const nome = container.previousElementSibling.dataset.nome;
       if (quantidade > 0) {
         pedido.adicionarItem(nome, quantidade);
-        container.style.display = "none";
+        container.classList.remove("visible");
         container.querySelector(".quantidade-input").value = "1";
       }
     });
   });
 
   document.getElementById("enviar-pedido").addEventListener("click", enviar);
-  pedido.renderizarPedidos(); // Renderiza os pedidos iniciais
+  pedido.renderizarPedidos();
 }
 
 window.enviar = async () => {
