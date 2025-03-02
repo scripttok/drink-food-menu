@@ -3,9 +3,12 @@ import { Menu } from "./components/Menu.js";
 import { Pedido } from "./components/Pedido.js";
 import { enviarPedido } from "./services/api.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+import {
+  getDatabase,
+  ref,
+  onValue,
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-// Configuração do Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyAto25h5ZeIJ6GPlIsyuXAdc4igrgMgzhk",
   authDomain: "bar-do-cesar.firebaseapp.com",
@@ -24,51 +27,73 @@ const app = document.getElementById("app");
 const urlParams = new URLSearchParams(window.location.search);
 const mesa = urlParams.get("mesa") || "N/A";
 
-// Instancia o pedido
 const pedido = new Pedido(mesa);
 
-// Callback para adicionar itens
-window.adicionar = (item) => pedido.adicionarItem(item);
-
-// Buscar o cardápio dinamicamente do Firebase
 let itensCardapio = [];
 const cardapioRef = ref(db, "cardapio");
-onValue(cardapioRef, (snapshot) => {
-  const data = snapshot.val();
-  if (data) {
-    itensCardapio = Object.values(data).map((item) => ({
-      nome: item.nome,
-      preco: item.precoUnitario,
-    }));
-  } else {
-    itensCardapio = [];
+onValue(
+  cardapioRef,
+  (snapshot) => {
+    const data = snapshot.val();
+    if (data) {
+      itensCardapio = Object.values(data).map((item) => ({
+        nome: item.nome,
+        preco: item.precoUnitario,
+      }));
+    } else {
+      itensCardapio = [];
+    }
+    renderizarCardapio();
+  },
+  (error) => {
+    console.error("Erro ao buscar cardápio:", error);
+    app.innerHTML = "<p>Erro ao carregar o cardápio</p>";
   }
-  renderizarCardapio(); // Renderiza após atualizar os itens
-}, (error) => {
-  console.error("Erro ao buscar cardápio:", error);
-  app.innerHTML = "<p>Erro ao carregar o cardápio</p>";
-});
+);
 
-// Função para renderizar o cardápio
 function renderizarCardapio() {
   const menu = new Menu(itensCardapio, "adicionar");
   app.innerHTML = `
     ${MesaInfo()}
     <div>${menu.render()}</div>
-    <button id="enviar-pedido" onclick="enviar()">Enviar Pedido</button>
+    <button id="enviar-pedido">Enviar Pedido</button>
   `;
+  
+  // Adiciona eventos aos botões após renderizar
+  document.querySelectorAll(".adicionar-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const nome = btn.dataset.nome;
+      const container = btn.nextElementSibling;
+      container.style.display = "block";
+      container.querySelector(".quantidade-input").focus();
+    });
+  });
+
+  document.querySelectorAll(".confirmar-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const container = btn.parentElement;
+      const quantidade = parseInt(container.querySelector(".quantidade-input").value) || 1;
+      const nome = container.previousElementSibling.dataset.nome;
+      if (quantidade > 0) {
+        pedido.adicionarItem(nome, quantidade);
+        container.style.display = "none";
+        container.querySelector(".quantidade-input").value = "1";
+      }
+    });
+  });
+
+  document.getElementById("enviar-pedido").addEventListener("click", enviar);
+  pedido.renderizarPedidos(); // Renderiza os pedidos iniciais
 }
 
-// Função para enviar o pedido
 window.enviar = async () => {
   if (pedido.getItens().length > 0) {
     await enviarPedido(pedido.mesa, pedido.getItens());
     pedido.limpar();
-    renderizarCardapio(); // Re-renderiza após limpar o pedido
+    renderizarCardapio();
   } else {
     alert("Adicione itens ao pedido antes de enviar!");
   }
 };
 
-// Renderização inicial
 renderizarCardapio();
