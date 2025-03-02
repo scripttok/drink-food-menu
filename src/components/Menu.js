@@ -9,13 +9,15 @@ export class Menu {
       .map(
         (item) => `
           <div class="menu-item">
-            <span>${item.nome} - R$ ${item.preco.toFixed(2)}</span>
-            <button class="adicionar-btn" data-nome="${item.nome}">
-              Adicionar
-            </button>
-            <div class="quantidade-container" style="display: none;">
-              <input type="number" class="quantidade-input" min="1" value="1" style="width: 50px;">
-              <button class="confirmar-btn">OK</button>
+            <span class="item-nome">${item.nome} - R$ ${item.preco.toFixed(2)}</span>
+            <div class="item-actions">
+              <button class="adicionar-btn" data-nome="${item.nome}">
+                Adicionar
+              </button>
+              <div class="quantidade-container">
+                <input type="number" class="quantidade-input" min="1" value="1">
+                <button class="confirmar-btn">OK</button>
+              </div>
             </div>
           </div>
         `
