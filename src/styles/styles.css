@@ -1,42 +1,99 @@
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 20px;
-  background-color: #f4f4f4;
-}
-
-h1 {
-  text-align: center;
-  color: #333;
-}
-
 .menu-item {
   display: flex;
   justify-content: space-between;
-  padding: 10px;
-  margin: 5px 0;
+  align-items: center;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
   background-color: #fff;
-  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-button {
-  padding: 8px 16px;
-  background-color: #28a745;
+.item-nome {
+  font-size: 16px;
+  color: #333;
+}
+
+.item-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espaçamento entre elementos */
+}
+
+.adicionar-btn {
+  padding: 8px 12px;
+  background-color: #2196F3;
   color: white;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-button:hover {
-  background-color: #218838;
+.adicionar-btn:hover {
+  background-color: #1976D2;
+}
+
+.quantidade-container {
+  display: none; /* Inicialmente escondido */
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.quantidade-container.visible {
+  display: flex;
+  opacity: 1;
+}
+
+.quantidade-input {
+  width: 50px;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.confirmar-btn {
+  padding: 6px 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.confirmar-btn:hover {
+  background-color: #388E3C;
+}
+
+#pedidos-list {
+  margin-top: 20px;
+  list-style-type: none;
+  padding: 0;
+}
+
+#pedidos-list li {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
 }
 
 #enviar-pedido {
-  display: block;
-  margin: 20px auto;
-  background-color: #007bff;
+  margin-top: 20px;
+  padding: 12px 24px;
+  background-color: #2196F3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
 }
 
 #enviar-pedido:hover {
-  background-color: #0056b3;
+  background-color: #1976D2;
 }
