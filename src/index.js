@@ -20,7 +20,12 @@ const firebaseConfig = {
   measurementId: "G-7SZT212JXN"
 };
 
-const appFirebase = initializeApp(firebaseConfig);
+let appFirebase;
+if (!getApps().length) {
+  appFirebase = initializeApp(firebaseConfig);
+} else {
+  appFirebase = getApps()[0];
+}
 const db = getDatabase(appFirebase);
 
 const app = document.getElementById("app");
@@ -36,11 +41,14 @@ onValue(
   (snapshot) => {
     const data = snapshot.val();
     if (data) {
-      itensCardapio = Object.values(data).map((item) => ({
-        nome: item.nome,
-        precoUnitario: item.precoUnitario,
-        imagens: item.imagens || [],
-      }));
+      itensCardapio = Object.values(data).map((item) => {
+        console.log("Item do cardápio:", item); // Log temporário para debug
+        return {
+          nome: item.nome,
+          precoUnitario: item.precoUnitario,
+          imagens: item.imagens || [],
+        };
+      });
     } else {
       itensCardapio = [];
     }
