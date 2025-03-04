@@ -63,6 +63,8 @@ window.adicionar = (item) => {
   renderizarCardapio();
 };
 
+// ... (código anterior até window.abrirCarrossel)
+
 window.abrirCarrossel = (index) => {
   console.log("Abrindo carrossel para índice:", index);
   const imagens = itensCardapio[index].imagens;
@@ -82,7 +84,7 @@ window.abrirCarrossel = (index) => {
             .map(
               (img) => `
             <div class="swiper-slide">
-              <img src="${img}" alt="Imagem do produto" style="width: 100%; height: auto;">
+              <img src="${img}" alt="Imagem do produto">
             </div>
           `
             )
@@ -108,6 +110,8 @@ window.abrirCarrossel = (index) => {
     console.error("Erro ao inicializar o Swiper:", e);
   }
 };
+
+// ... (restante do código)
 
 function renderizarCardapio() {
   const menu = new Menu(itensCardapio, "adicionar", "abrirCarrossel");
