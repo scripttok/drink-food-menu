@@ -10,14 +10,14 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAto25h5ZeIJ6GPlIsyuXAdc4igrgMgzhk",
-  authDomain: "bar-do-cesar.firebaseapp.com",
-  databaseURL: "https://bar-do-cesar-default-rtdb.firebaseio.com",
-  projectId: "bar-do-cesar",
-  storageBucket: "bar-do-cesar.firebasestorage.app",
-  messagingSenderId: "525946263891",
-  appId: "1:525946263891:web:6179063c88e3f45d2c29a6",
-  measurementId: "G-7SZT212JXN",
+  apiKey: "SuaApiKey",
+  authDomain: "SeuAuthDomain",
+  databaseURL: "SeuDatabaseURL",
+  projectId: "SeuProjectId",
+  storageBucket: "SeuStorageBucket",
+  messagingSenderId: "SeuMessagingSenderId",
+  appId: "SeuAppId",
+  measurementId: "SeuMeasurementId",
 };
 
 const appFirebase = initializeApp(firebaseConfig);
@@ -38,7 +38,8 @@ onValue(
     if (data) {
       itensCardapio = Object.values(data).map((item) => ({
         nome: item.nome,
-        preco: item.precoUnitario,
+        precoUnitario: item.precoUnitario,
+        imagens: item.imagens || [],
       }));
     } else {
       itensCardapio = [];
@@ -51,37 +52,64 @@ onValue(
   }
 );
 
+window.adicionar = (item) => {
+  const observacao = prompt(`Adicionar observação para ${item}? (ex.: "sem açúcar")`);
+  pedido.adicionarItem(item, observacao);
+  renderizarCardapio();
+};
+
+window.abrirCarrossel = (imagensJson) => {
+  const imagens = JSON.parse(imagensJson);
+  const carrosselModal = document.createElement("div");
+  carrosselModal.className = "carrossel-modal";
+  carrosselModal.innerHTML = `
+    <div class="carrossel-container">
+      <button class="fechar-carrossel" onclick="this.parentElement.parentElement.remove()">X</button>
+      <div class="carousel">
+        ${imagens
+          .map(
+            (img) => `
+          <div>
+            <img src="${img}" alt="Imagem do produto" style="width: 100%; height: auto;">
+          </div>
+        `
+          )
+          .join("")}
+      </div>
+    </div>
+  `;
+  document.body.appendChild(carrosselModal);
+
+  // Inicializar o carrossel
+  const carousel = new window.Carousel(carrosselModal.querySelector(".carousel"), {
+    infinite: false,
+    navigationNextLabel: ">",
+    navigationPrevLabel: "<",
+  });
+};
+
 function renderizarCardapio() {
-  const menu = new Menu(itensCardapio, "adicionar");
+  const menu = new Menu(itensCardapio, "adicionar", "abrirCarrossel");
   app.innerHTML = `
     ${MesaInfo()}
     <div>${menu.render()}</div>
-    <button id="enviar-pedido">Enviar Pedido</button>
+    <div id="pedidos-list">
+      <h2>Itens Selecionados:</h2>
+      <ul>
+        ${pedido
+          .getItens()
+          .map(
+            (item) => `
+          <li>${item.nome} x${item.quantidade}${
+              item.observacao ? ` (${item.observacao})` : ""
+            }</li>
+        `
+          )
+          .join("")}
+      </ul>
+    </div>
+    <button id="enviar-pedido" onclick="enviar()">Enviar Pedido</button>
   `;
-
-  document.querySelectorAll(".adicionar-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const container = btn.nextElementSibling;
-      container.classList.add("visible");
-      container.querySelector(".quantidade-input").focus();
-    });
-  });
-
-  document.querySelectorAll(".confirmar-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const container = btn.parentElement;
-      const quantidade = parseInt(container.querySelector(".quantidade-input").value) || 1;
-      const nome = container.previousElementSibling.dataset.nome;
-      if (quantidade > 0) {
-        pedido.adicionarItem(nome, quantidade);
-        container.classList.remove("visible");
-        container.querySelector(".quantidade-input").value = "1";
-      }
-    });
-  });
-
-  document.getElementById("enviar-pedido").addEventListener("click", enviar);
-  pedido.renderizarPedidos();
 }
 
 window.enviar = async () => {
