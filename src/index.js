@@ -62,8 +62,38 @@ window.adicionar = (item) => {
   renderizarCardapio();
 };
 
+window.abrirCarrossel = (imagensJson) => {
+  const imagens = JSON.parse(imagensJson);
+  const carrosselModal = document.createElement("div");
+  carrosselModal.className = "carrossel-modal";
+  carrosselModal.innerHTML = `
+    <div class="carrossel-container">
+      <button class="fechar-carrossel" onclick="this.parentElement.parentElement.remove()">X</button>
+      <div class="carousel">
+        ${imagens
+          .map(
+            (img) => `
+          <div>
+            <img src="${img}" alt="Imagem do produto" style="width: 100%; height: auto;">
+          </div>
+        `
+          )
+          .join("")}
+      </div>
+    </div>
+  `;
+  document.body.appendChild(carrosselModal);
+
+  // Inicializar o carrossel
+  const carousel = new window.Carousel(carrosselModal.querySelector(".carousel"), {
+    infinite: false,
+    navigationNextLabel: ">",
+    navigationPrevLabel: "<",
+  });
+};
+
 function renderizarCardapio() {
-  const menu = new Menu(itensCardapio, "adicionar");
+  const menu = new Menu(itensCardapio, "adicionar", "abrirCarrossel");
   app.innerHTML = `
     ${MesaInfo()}
     <div>${menu.render()}</div>
