@@ -13,7 +13,7 @@ export class Menu {
           <div class="menu-item">
             ${
               item.imagens && item.imagens.length > 0
-                ? `<img src="${item.imagens[0]}" alt="${item.nome}" class="menu-item-image" onclick="abrirCarrossel(${index})">`
+                ? `<img src="${item.imagens[0]}" " class="menu-item-image" onclick="abrirCarrossel(${index})">`
                 : `<div class="menu-item-no-image">Sem Imagem</div>`
             }
             <span>${item.nome} - R$ ${(item.precoUnitario || 0).toFixed(2)}</span>
