@@ -1,7 +1,8 @@
 export class Menu {
-  constructor(itens, adicionarCallback) {
+  constructor(itens, adicionarCallback, abrirCarrosselCallback) {
     this.itens = itens;
     this.adicionarCallback = adicionarCallback;
+    this.abrirCarrosselCallback = abrirCarrosselCallback; // Callback para abrir o carrossel
   }
 
   render() {
@@ -9,16 +10,17 @@ export class Menu {
       .map(
         (item) => `
           <div class="menu-item">
-            <span class="item-nome">${item.nome} - R$ ${item.preco.toFixed(2)}</span>
-            <div class="item-actions">
-              <button class="adicionar-btn" data-nome="${item.nome}">
-                Adicionar
-              </button>
-              <div class="quantidade-container">
-                <input type="number" class="quantidade-input" min="1" value="1">
-                <button class="confirmar-btn">OK</button>
-              </div>
-            </div>
+            ${
+              item.imagens && item.imagens.length > 0
+                ? `<img src="${item.imagens[0]}" alt="${item.nome}" class="menu-item-image" onclick="(${this.abrirCarrosselCallback})('${JSON.stringify(
+                    item.imagens
+                  )}')">`
+                : ""
+            }
+            <span>${item.nome} - R$ ${item.precoUnitario.toFixed(2)}</span>
+            <button onclick="(${this.adicionarCallback})('${item.nome}')">
+              Adicionar
+            </button>
           </div>
         `
       )
