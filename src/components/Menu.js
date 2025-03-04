@@ -9,13 +9,13 @@ export class Menu {
     return this.itens
       .map((item) => {
         console.log("Item sendo renderizado:", item);
-        const imagensJson = JSON.stringify(item.imagens || []).replace(/'/g, "\\'");
-        console.log("String JSON para carrossel:", imagensJson);
+        const imagensJson = encodeURIComponent(JSON.stringify(item.imagens || []));
+        console.log("String JSON escapada para carrossel:", imagensJson);
         return `
           <div class="menu-item">
             ${
               item.imagens && item.imagens.length > 0
-                ? `<img src="${item.imagens[0]}" alt="${item.nome}" class="menu-item-image" onclick="(${this.abrirCarrosselCallback})('${imagensJson}')">`
+                ? `<img src="${item.imagens[0]}" alt="${item.nome}" class="menu-item-image" onclick="abrirCarrossel(decodeURIComponent('${imagensJson}'))">`
                 : `<div class="menu-item-no-image">Sem Imagem</div>`
             }
             <span>${item.nome} - R$ ${(item.precoUnitario || 0).toFixed(2)}</span>
