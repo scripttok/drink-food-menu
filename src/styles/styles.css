@@ -57,6 +57,19 @@
   cursor: pointer;
   z-index: 1001;
 }
+.swiper-container {
+  width: 100%;
+  height: 300px;
+}
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.swiper-button-next,
+.swiper-button-prev {
+  color: #fff;
+}
 #pedidos-list {
   margin-top: 20px;
 }
