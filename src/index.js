@@ -63,14 +63,12 @@ window.adicionar = (item) => {
   renderizarCardapio();
 };
 
-window.abrirCarrossel = (imagensJson) => {
-  console.log("Abrindo carrossel com JSON codificado:", imagensJson);
-  let imagens;
-  try {
-    imagens = JSON.parse(imagensJson);
-    console.log("Imagens parseadas:", imagens);
-  } catch (e) {
-    console.error("Erro ao parsear JSON de imagens:", e);
+window.abrirCarrossel = (index) => {
+  console.log("Abrindo carrossel para índice:", index);
+  const imagens = itensCardapio[index].imagens;
+  console.log("Imagens do item:", imagens);
+  if (!imagens || imagens.length === 0) {
+    console.error("Nenhuma imagem disponível para o item no índice:", index);
     return;
   }
   const carrosselModal = document.createElement("div");
@@ -78,30 +76,36 @@ window.abrirCarrossel = (imagensJson) => {
   carrosselModal.innerHTML = `
     <div class="carrossel-container">
       <button class="fechar-carrossel" onclick="this.parentElement.parentElement.remove()">X</button>
-      <div class="carousel">
-        ${imagens
-          .map(
-            (img) => `
-          <div>
-            <img src="${img}" alt="Imagem do produto" style="width: 100%; height: auto;">
-          </div>
-        `
-          )
-          .join("")}
+      <div class="swiper-container">
+        <div class="swiper-wrapper">
+          ${imagens
+            .map(
+              (img) => `
+            <div class="swiper-slide">
+              <img src="${img}" alt="Imagem do produto" style="width: 100%; height: auto;">
+            </div>
+          `
+            )
+            .join("")}
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
       </div>
     </div>
   `;
   document.body.appendChild(carrosselModal);
 
   try {
-    const carousel = new window.Carousel(carrosselModal.querySelector(".carousel"), {
-      infinite: false,
-      navigationNextLabel: ">",
-      navigationPrevLabel: "<",
+    const swiper = new Swiper(carrosselModal.querySelector(".swiper-container"), {
+      loop: false,
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
     });
-    console.log("Carrossel inicializado com sucesso");
+    console.log("Swiper inicializado com sucesso para índice:", index);
   } catch (e) {
-    console.error("Erro ao inicializar o carrossel:", e);
+    console.error("Erro ao inicializar o Swiper:", e);
   }
 };
 
