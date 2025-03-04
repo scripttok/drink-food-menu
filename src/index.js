@@ -2,11 +2,12 @@ import { MesaInfo } from "./components/MesaInfo.js";
 import { Menu } from "./components/Menu.js";
 import { Pedido } from "./components/Pedido.js";
 import { enviarPedido } from "./services/api.js";
-import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import {
   getDatabase,
   ref,
   onValue,
+  getApps,
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
 const firebaseConfig = {
@@ -17,7 +18,7 @@ const firebaseConfig = {
   storageBucket: "bar-do-cesar.firebasestorage.app",
   messagingSenderId: "525946263891",
   appId: "1:525946263891:web:6179063c88e3f45d2c29a6",
-  measurementId: "G-7SZT212JXN"
+  measurementId: "G-7SZT212JXN",
 };
 
 let appFirebase;
@@ -46,6 +47,7 @@ onValue(
         precoUnitario: item.precoUnitario,
         imagens: item.imagens || [],
       }));
+      console.log("Itens do cardápio carregados:", itensCardapio);
     } else {
       itensCardapio = [];
     }
@@ -63,7 +65,15 @@ window.adicionar = (item) => {
 };
 
 window.abrirCarrossel = (imagensJson) => {
-  const imagens = JSON.parse(imagensJson);
+  console.log("Abrindo carrossel com JSON:", imagensJson);
+  let imagens;
+  try {
+    imagens = JSON.parse(imagensJson);
+    console.log("Imagens parseadas:", imagens);
+  } catch (e) {
+    console.error("Erro ao parsear JSON de imagens:", e);
+    return;
+  }
   const carrosselModal = document.createElement("div");
   carrosselModal.className = "carrossel-modal";
   carrosselModal.innerHTML = `
@@ -84,12 +94,16 @@ window.abrirCarrossel = (imagensJson) => {
   `;
   document.body.appendChild(carrosselModal);
 
-  // Inicializar o carrossel
-  const carousel = new window.Carousel(carrosselModal.querySelector(".carousel"), {
-    infinite: false,
-    navigationNextLabel: ">",
-    navigationPrevLabel: "<",
-  });
+  try {
+    const carousel = new window.Carousel(carrosselModal.querySelector(".carousel"), {
+      infinite: false,
+      navigationNextLabel: ">",
+      navigationPrevLabel: "<",
+    });
+    console.log("Carrossel inicializado com sucesso");
+  } catch (e) {
+    console.error("Erro ao inicializar o carrossel:", e);
+  }
 };
 
 function renderizarCardapio() {
