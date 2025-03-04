@@ -4,15 +4,15 @@ export class Pedido {
     this.itens = [];
   }
 
-  adicionarItem(nome, quantidade) {
-    const existingItem = this.itens.find((i) => i.nome === nome);
+  adicionarItem(item, observacao = "") {
+    const existingItem = this.itens.find((i) => i.nome === item);
     if (existingItem) {
-      existingItem.quantidade += quantidade;
+      existingItem.quantidade += 1;
+      existingItem.observacao = observacao || existingItem.observacao; // Mantém a observação existente se não houver nova
     } else {
-      this.itens.push({ nome, quantidade });
+      this.itens.push({ nome: item, quantidade: 1, observacao });
     }
-    this.renderizarPedidos(); // Atualiza a UI
-    alert(`${nome} x${quantidade} adicionado ao pedido!`);
+    alert(`${item} adicionado ao pedido${observacao ? ` com observação: ${observacao}` : ""}!`);
   }
 
   getItens() {
@@ -21,14 +21,5 @@ export class Pedido {
 
   limpar() {
     this.itens = [];
-    this.renderizarPedidos(); // Limpa a UI
-  }
-
-  renderizarPedidos() {
-    const pedidosList = document.getElementById("pedidos-list");
-    if (!pedidosList) return;
-    pedidosList.innerHTML = this.itens
-      .map((item) => `<li>${item.nome} x${item.quantidade}</li>`)
-      .join("");
   }
 }
