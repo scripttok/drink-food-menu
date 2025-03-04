@@ -41,14 +41,11 @@ onValue(
   (snapshot) => {
     const data = snapshot.val();
     if (data) {
-      itensCardapio = Object.values(data).map((item) => {
-        console.log("Item do cardápio:", item); // Log temporário para debug
-        return {
-          nome: item.nome,
-          precoUnitario: item.precoUnitario,
-          imagens: item.imagens || [],
-        };
-      });
+      itensCardapio = Object.values(data).map((item) => ({
+        nome: item.nome,
+        precoUnitario: item.precoUnitario,
+        imagens: item.imagens || [],
+      }));
     } else {
       itensCardapio = [];
     }
