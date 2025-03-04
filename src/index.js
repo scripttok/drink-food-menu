@@ -31,7 +31,7 @@ const db = getDatabase(appFirebase);
 const app = document.getElementById("app");
 const urlParams = new URLSearchParams(window.location.search);
 const mesa = urlParams.get("mesa") || "N/A";
-const baseUrl = "https://scripttok.github.io/drink-food-menu"; // Caminho base do GitHub Pages
+const baseUrl = "https://scripttok.github.io/drink-food-menu";
 
 const pedido = new Pedido(mesa);
 
@@ -47,9 +47,9 @@ onValue(
         precoUnitario: item.precoUnitario,
         imagens: (item.imagens || []).map((img) =>
           img.startsWith("http://") || img.startsWith("https://") ? img : `${baseUrl}${img}`
-        ), // Preserva URLs completas, adiciona baseUrl a caminhos relativos
+        ),
       }));
-      console.log("Itens do cardápio carregados:", itensCardapio);
+      console.log("Itens do cardápio carregados (detalhado):", JSON.stringify(itensCardapio, null, 2));
     } else {
       itensCardapio = [];
     }
@@ -69,7 +69,7 @@ window.adicionar = (item) => {
 window.abrirCarrossel = (index) => {
   console.log("Abrindo carrossel para índice:", index);
   const imagens = itensCardapio[index].imagens;
-  console.log("Imagens do item:", imagens);
+  console.log("Imagens do item (detalhado):", JSON.stringify(imagens, null, 2));
   if (!imagens || imagens.length === 0) {
     console.error("Nenhuma imagem disponível para o item no índice:", index);
     return;
@@ -85,7 +85,7 @@ window.abrirCarrossel = (index) => {
             .map(
               (img) => `
             <div class="swiper-slide">
-              <img src="${img}" alt="Imagem do produto">
+              <img src="${img}" alt="Imagem do produto" onload="console.log('Imagem carregada:', '${img}')" onerror="console.error('Erro ao carregar imagem:', '${img}')">
             </div>
           `
             )
