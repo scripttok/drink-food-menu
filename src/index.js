@@ -2,12 +2,12 @@ import { MesaInfo } from "./components/MesaInfo.js";
 import { Menu } from "./components/Menu.js";
 import { Pedido } from "./components/Pedido.js";
 import { enviarPedido } from "./services/api.js";
-import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import {
   getDatabase,
   ref,
   onValue,
-  
+  getApps,
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
 const firebaseConfig = {
@@ -65,7 +65,7 @@ window.adicionar = (item) => {
 };
 
 window.abrirCarrossel = (imagensJson) => {
-  console.log("Abrindo carrossel com JSON:", imagensJson);
+  console.log("Abrindo carrossel com JSON codificado:", imagensJson);
   let imagens;
   try {
     imagens = JSON.parse(imagensJson);
