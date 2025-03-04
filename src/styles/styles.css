@@ -1,99 +1,72 @@
 .menu-item {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 12px;
-  margin: 8px 0;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.item-nome {
-  font-size: 16px;
-  color: #333;
-}
-
-.item-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px; /* Espaçamento entre elementos */
-}
-
-.adicionar-btn {
-  padding: 8px 12px;
-  background-color: #2196F3;
-  color: white;
-  border: none;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ddd;
   border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
 }
-
-.adicionar-btn:hover {
-  background-color: #1976D2;
-}
-
-.quantidade-container {
-  display: none; /* Inicialmente escondido */
-  flex-direction: row;
-  align-items: center;
-  gap: 8px;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.quantidade-container.visible {
-  display: flex;
-  opacity: 1;
-}
-
-.quantidade-input {
+.menu-item-image {
   width: 50px;
-  padding: 6px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 14px;
-}
-
-.confirmar-btn {
-  padding: 6px 10px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
+  height: 50px;
+  margin-right: 10px;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
-
-.confirmar-btn:hover {
-  background-color: #388E3C;
+.carrossel-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
-
+.carrossel-container {
+  position: relative;
+  width: 80%;
+  max-width: 500px;
+}
+.fechar-carrossel {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 18px;
+  cursor: pointer;
+  z-index: 1001;
+}
 #pedidos-list {
   margin-top: 20px;
+}
+#pedidos-list h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+#pedidos-list ul {
   list-style-type: none;
   padding: 0;
 }
-
 #pedidos-list li {
-  padding: 8px;
+  padding: 5px 0;
   border-bottom: 1px solid #eee;
 }
-
 #enviar-pedido {
   margin-top: 20px;
-  padding: 12px 24px;
+  padding: 10px 20px;
   background-color: #2196F3;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
 }
-
 #enviar-pedido:hover {
   background-color: #1976D2;
 }
