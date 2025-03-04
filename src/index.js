@@ -31,6 +31,7 @@ const db = getDatabase(appFirebase);
 const app = document.getElementById("app");
 const urlParams = new URLSearchParams(window.location.search);
 const mesa = urlParams.get("mesa") || "N/A";
+const baseUrl = "https://scripttok.github.io/drink-food-menu"; // Caminho base do GitHub Pages
 
 const pedido = new Pedido(mesa);
 
@@ -44,7 +45,9 @@ onValue(
       itensCardapio = Object.values(data).map((item) => ({
         nome: item.nome,
         precoUnitario: item.precoUnitario,
-        imagens: item.imagens || [],
+        imagens: (item.imagens || []).map((img) =>
+          img.startsWith("http://") || img.startsWith("https://") ? img : `${baseUrl}${img}`
+        ), // Preserva URLs completas, adiciona baseUrl a caminhos relativos
       }));
       console.log("Itens do cardápio carregados:", itensCardapio);
     } else {
@@ -62,8 +65,6 @@ window.adicionar = (item) => {
   pedido.adicionarItem(item);
   renderizarCardapio();
 };
-
-// ... (código anterior até window.abrirCarrossel)
 
 window.abrirCarrossel = (index) => {
   console.log("Abrindo carrossel para índice:", index);
@@ -110,8 +111,6 @@ window.abrirCarrossel = (index) => {
     console.error("Erro ao inicializar o Swiper:", e);
   }
 };
-
-// ... (restante do código)
 
 function renderizarCardapio() {
   const menu = new Menu(itensCardapio, "adicionar", "abrirCarrossel");
