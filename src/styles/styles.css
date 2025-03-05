@@ -357,3 +357,31 @@ h1 {
     margin: 0 auto 15px;
   }
 }
+
+/* Botão Remover */
+.remove-btn {
+  background: #e53e3e;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.remove-btn:hover {
+  background: #c53030;
+  transform: scale(1.05);
+}
+
+/* Ajuste responsivo */
+@media (max-width: 768px) {
+  .remove-btn {
+    margin-left: 5px;
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+}
