@@ -36,6 +36,7 @@ const baseUrl = "https://scripttok.github.io/drink-food-menu";
 const pedido = new Pedido(mesa);
 
 let itensCardapio = [];
+let categorias = [];
 const cardapioRef = ref(db, "cardapio");
 onValue(
   cardapioRef,
@@ -43,20 +44,23 @@ onValue(
     const data = snapshot.val();
     if (data) {
       itensCardapio = [];
+      categorias = Object.keys(data).map(categoria => categoria.replace(/_/g, " "));
       Object.entries(data).forEach(([categoria, itens]) => {
         Object.values(itens).forEach((item) => {
           itensCardapio.push({
             nome: item.nome,
             precoUnitario: item.precoUnitario,
             imagens: item.imagens || [],
-            categoria: categoria.replace(/_/g, " "), // Substitui "_" por espaço
+            categoria: categoria.replace(/_/g, " "),
             descrição: item.descrição || ""
           });
         });
       });
       console.log("Itens do cardápio carregados (com categorias e descrição):", JSON.stringify(itensCardapio, null, 2));
+      console.log("Categorias disponíveis:", categorias);
     } else {
       itensCardapio = [];
+      categorias = [];
     }
     renderizarCardapio();
   },
@@ -126,6 +130,21 @@ window.abrirCarrossel = (index) => {
   }
 };
 
+window.abrirModalCategoria = (categoria) => {
+  const itensDaCategoria = itensCardapio.filter(item => item.categoria === categoria);
+  const menu = new Menu(itensDaCategoria, "adicionar", "abrirCarrossel");
+  const modal = document.createElement("div");
+  modal.className = "categoria-modal";
+  modal.innerHTML = `
+    <div class="modal-content">
+      <button class="fechar-modal" onclick="this.parentElement.parentElement.remove()">X</button>
+      <h2>${categoria}</h2>
+      ${menu.render()}
+    </div>
+  `;
+  document.body.appendChild(modal);
+};
+
 function renderizarCardapio() {
   const menu = new Menu(itensCardapio, "adicionar", "abrirCarrossel");
   window.menuInstance = menu;
@@ -143,7 +162,14 @@ function renderizarCardapio() {
       </ul>
     </div>
     <button id="enviar-pedido" onclick="enviar()">Enviar Pedido</button>
-    <div>${menu.render()}</div>
+    <div id="categorias-list">
+      <h2>Categorias</h2>
+      <div class="categorias-container">
+        ${categorias.map(categoria => `
+          <button class="categoria-btn" onclick="abrirModalCategoria('${categoria}')">${categoria}</button>
+        `).join("")}
+      </div>
+    </div>
   `;
 }
 
