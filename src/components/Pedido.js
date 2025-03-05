@@ -15,6 +15,11 @@ export class Pedido {
     alert(`${item} x${quantidade} adicionado ao pedido${observacao ? ` com observação: ${observacao}` : ""}!`);
   }
 
+  removerItem(nome) {
+    this.itens = this.itens.filter((item) => item.nome !== nome);
+    console.log(`Item ${nome} removido do pedido. Itens restantes:`, JSON.stringify(this.itens, null, 2));
+  }
+
   getItens() {
     return this.itens;
   }
