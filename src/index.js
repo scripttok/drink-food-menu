@@ -61,10 +61,11 @@ onValue(
   }
 );
 
-window.adicionar = (item, quantidade) => {
-  const qtd = parseInt(quantidade, 10); // Garante que seja um número
-  console.log(`Adicionando ${qtd} de ${item}`); // Log para depuração
-  pedido.adicionarItem(item, "", qtd);
+window.adicionar = (item, quantidade, observacao = "") => {
+  const qtd = parseInt(quantidade, 10);
+  console.log(`Quantidade recebida em adicionar: ${quantidade}, convertida para: ${qtd}, observação: "${observacao}"`);
+  pedido.adicionarItem(item, observacao, qtd);
+  console.log("Itens no pedido após adicionar:", JSON.stringify(pedido.getItens(), null, 2));
   renderizarCardapio();
 };
 
@@ -123,7 +124,7 @@ function renderizarCardapio() {
     <div id="pedidos-list">
       <h2>Itens Selecionados:</h2>
       <ul>
-        ${pedido.getItens().map((item) => `<li>${item.nome} x${item.quantidade}</li>`).join("")}
+        ${pedido.getItens().map((item) => `<li>${item.nome} x${item.quantidade}${item.observacao ? ` (${item.observacao})` : ""}</li>`).join("")}
       </ul>
     </div>
     <button id="enviar-pedido" onclick="enviar()">Enviar Pedido</button>
