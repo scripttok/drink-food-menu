@@ -4,12 +4,13 @@ export class Menu {
     this.adicionarCallback = adicionarCallback;
     this.abrirCarrosselCallback = abrirCarrosselCallback;
     this.quantidades = itens.map(() => 1); // Quantidades iniciais
+    this.observacoes = itens.map(() => ""); // Observações iniciais vazias
   }
 
   render() {
     return this.itens
       .map((item, index) => {
-        console.log(`Renderizando ${item.nome}, índice: ${index}, quantidade inicial: ${this.quantidades[index]}`);
+        console.log(`Renderizando ${item.nome}, índice: ${index}, quantidade: ${this.quantidades[index]}, observação: ${this.observacoes[index]}`);
         return `
           <div class="menu-item">
             ${
@@ -23,6 +24,7 @@ export class Menu {
               <span class="quantity-display" id="quantity-${index}">${this.quantidades[index]}</span>
               <button class="quantity-btn plus" onclick="updateQuantity(${index}, 1)">+</button>
             </div>
+            <input type="text" class="observacao-input" id="observacao-${index}" placeholder="Observação (opcional)" value="${this.observacoes[index]}" oninput="updateObservacao(${index}, this.value)">
             <button class="add-btn" onclick="adicionarComQuantidade('${item.nome}', ${index})">
               Adicionar
             </button>
@@ -38,9 +40,19 @@ export class Menu {
     document.getElementById(`quantity-${index}`).textContent = this.quantidades[index];
   }
 
+  updateObservacao(index, valor) {
+    this.observacoes[index] = valor;
+    console.log(`Observação atualizada para "${valor}" no índice ${index}`);
+  }
+
   getQuantidade(index) {
     console.log(`Obtendo quantidade para índice ${index}: ${this.quantidades[index]}`);
     return this.quantidades[index];
+  }
+
+  getObservacao(index) {
+    console.log(`Obtendo observação para índice ${index}: ${this.observacoes[index]}`);
+    return this.observacoes[index];
   }
 }
 
@@ -53,12 +65,22 @@ window.updateQuantity = (index, change) => {
   }
 };
 
+window.updateObservacao = (index, valor) => {
+  const menuInstance = window.menuInstance;
+  if (menuInstance) {
+    menuInstance.updateObservacao(index, valor);
+  } else {
+    console.error("Instância do Menu não encontrada em updateObservacao!");
+  }
+};
+
 window.adicionarComQuantidade = (item, index) => {
   const menuInstance = window.menuInstance;
   if (menuInstance) {
     const quantidade = menuInstance.getQuantidade(index);
-    console.log(`Chamando adicionar com ${item}, quantidade: ${quantidade}, índice: ${index}`);
-    window.adicionar(item, quantidade);
+    const observacao = menuInstance.getObservacao(index);
+    console.log(`Chamando adicionar com ${item}, quantidade: ${quantidade}, observação: "${observacao}", índice: ${index}`);
+    window.adicionar(item, quantidade, observacao);
   } else {
     console.error("Instância do Menu não encontrada em adicionarComQuantidade!");
   }
