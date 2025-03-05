@@ -23,7 +23,7 @@ export class Menu {
               <span class="quantity-display" id="quantity-${index}">${this.quantidades[index]}</span>
               <button class="quantity-btn plus" onclick="updateQuantity(${index}, 1)">+</button>
             </div>
-            <button class="add-btn" onclick="(${this.adicionarCallback})('${item.nome}', ${this.quantidades[index]})">
+            <button class="add-btn" onclick="${this.adicionarCallback}('${item.nome}', document.getElementById('quantity-${index}').textContent)">
               Adicionar
             </button>
           </div>
@@ -41,7 +41,7 @@ export class Menu {
 
 // Função global para atualizar a quantidade (chamada pelos botões +/-)
 window.updateQuantity = (index, change) => {
-  const menuInstance = window.menuInstance; // Armazenaremos a instância do Menu globalmente
+  const menuInstance = window.menuInstance;
   if (menuInstance) {
     menuInstance.updateQuantity(index, change);
   }
