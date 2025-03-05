@@ -1,106 +1,244 @@
+/* Estilo geral */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f7fa;
+  margin: 0;
+  padding: 20px;
+  color: #333;
+}
+
+h1 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 30px;
+  color: #2c3e50;
+}
+
+/* Itens do cardápio */
 .menu-item {
   display: flex;
   align-items: center;
-  padding: 10px;
-  margin: 5px 0;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  margin: 10px 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
+.menu-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
 .menu-item-image {
-  width: 50px;
-  height: 50px;
-  margin-right: 10px;
-  border-radius: 5px;
-  cursor: pointer;
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
   object-fit: cover;
-  display: block;
+  margin-right: 15px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
 }
+
+.menu-item-image:hover {
+  opacity: 0.9;
+}
+
 .menu-item-no-image {
-  width: 50px;
-  height: 50px;
-  margin-right: 10px;
-  background-color: #eee;
-  border-radius: 5px;
+  width: 60px;
+  height: 60px;
+  background-color: #e0e0e0;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-right: 15px;
   font-size: 12px;
   color: #666;
 }
+
+.menu-item span {
+  flex-grow: 1;
+  font-size: 16px;
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.menu-item button {
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.menu-item button:hover {
+  background-color: #2980b9;
+}
+
+/* Carrossel */
 .carrossel-modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.85);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
 }
+
 .carrossel-container {
   position: relative;
-  width: 80%;
-  max-width: 500px;
+  width: 90%;
+  max-width: 600px;
 }
+
 .fechar-carrossel {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 15px;
+  right: 15px;
   background: #fff;
   border: none;
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  font-size: 18px;
+  width: 35px;
+  height: 35px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
   cursor: pointer;
-  z-index: 1001;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.2s ease;
 }
+
+.fechar-carrossel:hover {
+  background-color: #e0e0e0;
+}
+
 .swiper-container {
   width: 100%;
-  height: 400px; /* Aumentado para garantir espaço suficiente */
+  height: 450px; /* Aumentado para melhor visualização */
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
+
 .swiper-slide {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100%; /* Garante que o slide use toda a altura do contêiner */
+  height: 100%;
+  background-color: #fff;
 }
+
 .swiper-slide img {
   max-width: 100%;
   max-height: 100%;
-  object-fit: contain; /* Mantém a proporção da imagem */
+  object-fit: contain;
+  border-radius: 8px;
 }
+
 .swiper-button-next,
 .swiper-button-prev {
   color: #fff;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  transition: background-color 0.2s ease;
 }
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+/* Lista de pedidos */
 #pedidos-list {
-  margin-top: 20px;
+  margin-top: 30px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
 #pedidos-list h2 {
-  font-size: 18px;
-  margin-bottom: 10px;
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #2c3e50;
 }
+
 #pedidos-list ul {
   list-style-type: none;
   padding: 0;
 }
+
 #pedidos-list li {
-  padding: 5px 0;
-  border-bottom: 1px solid #eee;
+  padding: 10px 0;
+  border-bottom: 1px solid #ececec;
+  font-size: 16px;
+  color: #555;
 }
+
+#pedidos-list li:last-child {
+  border-bottom: none;
+}
+
+/* Botão Enviar Pedido */
 #enviar-pedido {
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #2196F3;
-  color: white;
+  display: block;
+  width: 200px;
+  margin: 30px auto 0;
+  padding: 12px 20px;
+  background-color: #27ae60;
+  color: #fff;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
+
 #enviar-pedido:hover {
-  background-color: #1976D2;
+  background-color: #219653;
+  transform: scale(1.05);
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+  .menu-item {
+    flex-direction: column;
+    text-align: center;
+    padding: 10px;
+  }
+
+  .menu-item-image,
+  .menu-item-no-image {
+    margin: 0 0 10px 0;
+  }
+
+  .menu-item span {
+    margin-bottom: 10px;
+  }
+
+  .carrossel-container {
+    width: 95%;
+  }
+
+  .swiper-container {
+    height: 300px;
+  }
+
+  #enviar-pedido {
+    width: 100%;
+  }
 }
