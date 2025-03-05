@@ -62,9 +62,9 @@ onValue(
 );
 
 window.adicionar = (item, quantidade) => {
-  const qtd = parseInt(quantidade, 10); // Converte a string do DOM para número
+  const qtd = parseInt(quantidade, 10); // Garante que seja um número
   console.log(`Adicionando ${qtd} de ${item}`); // Log para depuração
-  pedido.adicionarItem(item, "", qtd); // Passa a quantidade como número
+  pedido.adicionarItem(item, "", qtd);
   renderizarCardapio();
 };
 
@@ -116,7 +116,7 @@ window.abrirCarrossel = (index) => {
 
 function renderizarCardapio() {
   const menu = new Menu(itensCardapio, "adicionar", "abrirCarrossel");
-  window.menuInstance = menu; // Armazena a instância do Menu globalmente
+  window.menuInstance = menu;
   app.innerHTML = `
     ${MesaInfo()}
     <div>${menu.render()}</div>
