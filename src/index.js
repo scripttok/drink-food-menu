@@ -61,8 +61,8 @@ onValue(
   }
 );
 
-window.adicionar = (item) => {
-  pedido.adicionarItem(item);
+window.adicionar = (item, quantidade) => {
+  pedido.adicionarItem(item, "", quantidade); // Passa a quantidade para o Pedido
   renderizarCardapio();
 };
 
@@ -114,6 +114,7 @@ window.abrirCarrossel = (index) => {
 
 function renderizarCardapio() {
   const menu = new Menu(itensCardapio, "adicionar", "abrirCarrossel");
+  window.menuInstance = menu; // Armazena a instância do Menu globalmente
   app.innerHTML = `
     ${MesaInfo()}
     <div>${menu.render()}</div>
