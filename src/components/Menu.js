@@ -9,7 +9,7 @@ export class Menu {
   render() {
     return this.itens
       .map((item, index) => {
-        console.log("Item sendo renderizado:", item);
+        console.log(`Renderizando ${item.nome}, índice: ${index}, quantidade inicial: ${this.quantidades[index]}`);
         return `
           <div class="menu-item">
             ${
@@ -23,7 +23,7 @@ export class Menu {
               <span class="quantity-display" id="quantity-${index}">${this.quantidades[index]}</span>
               <button class="quantity-btn plus" onclick="updateQuantity(${index}, 1)">+</button>
             </div>
-            <button class="add-btn" onclick="${this.adicionarCallback}('${item.nome}', ${this.quantidades[index]})">
+            <button class="add-btn" onclick="adicionarComQuantidade('${item.nome}', ${index})">
               Adicionar
             </button>
           </div>
@@ -34,7 +34,13 @@ export class Menu {
 
   updateQuantity(index, change) {
     this.quantidades[index] = Math.max(1, this.quantidades[index] + change);
+    console.log(`Quantidade atualizada para ${this.quantidades[index]} no índice ${index}`);
     document.getElementById(`quantity-${index}`).textContent = this.quantidades[index];
+  }
+
+  getQuantidade(index) {
+    console.log(`Obtendo quantidade para índice ${index}: ${this.quantidades[index]}`);
+    return this.quantidades[index];
   }
 }
 
@@ -42,5 +48,18 @@ window.updateQuantity = (index, change) => {
   const menuInstance = window.menuInstance;
   if (menuInstance) {
     menuInstance.updateQuantity(index, change);
+  } else {
+    console.error("Instância do Menu não encontrada em updateQuantity!");
+  }
+};
+
+window.adicionarComQuantidade = (item, index) => {
+  const menuInstance = window.menuInstance;
+  if (menuInstance) {
+    const quantidade = menuInstance.getQuantidade(index);
+    console.log(`Chamando adicionar com ${item}, quantidade: ${quantidade}, índice: ${index}`);
+    window.adicionar(item, quantidade);
+  } else {
+    console.error("Instância do Menu não encontrada em adicionarComQuantidade!");
   }
 };
