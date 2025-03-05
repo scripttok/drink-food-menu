@@ -4,15 +4,15 @@ export class Pedido {
     this.itens = [];
   }
 
-  adicionarItem(item, observacao = "") {
+  adicionarItem(item, observacao = "", quantidade = 1) {
     const existingItem = this.itens.find((i) => i.nome === item);
     if (existingItem) {
-      existingItem.quantidade += 1;
-      existingItem.observacao = observacao || existingItem.observacao; // Mantém a observação existente se não houver nova
+      existingItem.quantidade += quantidade;
+      existingItem.observacao = observacao || existingItem.observacao;
     } else {
-      this.itens.push({ nome: item, quantidade: 1, observacao });
+      this.itens.push({ nome: item, quantidade, observacao });
     }
-    alert(`${item} adicionado ao pedido${observacao ? ` com observação: ${observacao}` : ""}!`);
+    alert(`${item} x${quantidade} adicionado ao pedido${observacao ? ` com observação: ${observacao}` : ""}!`);
   }
 
   getItens() {
