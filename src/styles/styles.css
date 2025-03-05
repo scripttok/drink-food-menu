@@ -13,7 +13,7 @@ h1 {
   font-size: 32px;
   font-weight: 700;
   color: #2d3748;
-  margin-bottom: 20px; /* Reduzido para alinhar com pedidos no topo */
+  margin-bottom: 20px;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -24,7 +24,7 @@ h1 {
   padding: 20px;
   border-radius: 16px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
-  margin-bottom: 20px; /* Espaço entre pedidos e cardápio */
+  margin-bottom: 20px;
 }
 
 #pedidos-list h2 {
@@ -55,7 +55,7 @@ h1 {
 #enviar-pedido {
   display: block;
   width: 220px;
-  margin: 0 auto 20px; /* Ajustado para ficar logo abaixo da lista */
+  margin: 0 auto 20px;
   padding: 14px 24px;
   background: #48bb78;
   color: #fff;
@@ -204,7 +204,6 @@ h1 {
 }
 
 /* Carrossel */
-/* Carrossel */
 .carrossel-modal {
   position: fixed;
   top: 0;
@@ -250,7 +249,7 @@ h1 {
 
 .swiper-container {
   width: 100%;
-  height: 500px; /* Mantido o tamanho */
+  height: 500px;
   border-radius: 16px;
   overflow: hidden;
   background: #ffffff;
@@ -303,23 +302,6 @@ h1 {
   background: rgba(49, 130, 206, 0.9);
 }
 
-/* Responsividade do carrossel */
-@media (max-width: 768px) {
-  .carrossel-container {
-    width: 95%;
-  }
-
-  .swiper-container {
-    height: 350px;
-  }
-
-  .swiper-slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-}
-
 /* Responsividade */
 @media (max-width: 768px) {
   .menu-item {
@@ -358,6 +340,12 @@ h1 {
 
   .swiper-container {
     height: 350px;
+  }
+
+  .swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   #pedidos-list {
