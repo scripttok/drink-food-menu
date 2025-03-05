@@ -42,14 +42,19 @@ onValue(
   (snapshot) => {
     const data = snapshot.val();
     if (data) {
-      itensCardapio = Object.values(data).map((item) => ({
-        nome: item.nome,
-        precoUnitario: item.precoUnitario,
-        imagens: (item.imagens || []).map((img) =>
-          img.startsWith("http://") || img.startsWith("https://") ? img : `${baseUrl}${img}`
-        ),
-      }));
-      console.log("Itens do cardápio carregados (detalhado):", JSON.stringify(itensCardapio, null, 2));
+      itensCardapio = [];
+      Object.entries(data).forEach(([categoria, itens]) => {
+        Object.values(itens).forEach((item) => {
+          itensCardapio.push({
+            nome: item.nome,
+            precoUnitario: item.precoUnitario,
+            imagens: item.imagens || [],
+            categoria: categoria.replace(/_/g, " "), // Substitui "_" por espaço
+            descrição: item.descrição || ""
+          });
+        });
+      });
+      console.log("Itens do cardápio carregados (com categorias e descrição):", JSON.stringify(itensCardapio, null, 2));
     } else {
       itensCardapio = [];
     }
@@ -127,7 +132,7 @@ function renderizarCardapio() {
   app.innerHTML = `
     ${MesaInfo()}
     <div id="pedidos-list">
-      <h2>Seu Pedido:</h2>
+      <h2>Itens Selecionados:</h2>
       <ul>
         ${pedido.getItens().map((item) => `
           <li>
