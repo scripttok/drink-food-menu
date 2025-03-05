@@ -69,6 +69,12 @@ window.adicionar = (item, quantidade, observacao = "") => {
   renderizarCardapio();
 };
 
+window.remover = (nome) => {
+  console.log(`Removendo item: ${nome}`);
+  pedido.removerItem(nome);
+  renderizarCardapio();
+};
+
 window.abrirCarrossel = (index) => {
   console.log("Abrindo carrossel para índice:", index);
   const imagens = itensCardapio[index].imagens;
@@ -123,7 +129,12 @@ function renderizarCardapio() {
     <div id="pedidos-list">
       <h2>Itens Selecionados:</h2>
       <ul>
-        ${pedido.getItens().map((item) => `<li>${item.nome} x${item.quantidade}${item.observacao ? ` (${item.observacao})` : ""}</li>`).join("")}
+        ${pedido.getItens().map((item) => `
+          <li>
+            ${item.nome} x${item.quantidade}${item.observacao ? ` (${item.observacao})` : ""}
+            <button class="remove-btn" onclick="remover('${item.nome}')">Remover</button>
+          </li>
+        `).join("")}
       </ul>
     </div>
     <button id="enviar-pedido" onclick="enviar()">Enviar Pedido</button>
