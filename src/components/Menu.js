@@ -3,7 +3,7 @@ export class Menu {
     this.itens = itens;
     this.adicionarCallback = adicionarCallback;
     this.abrirCarrosselCallback = abrirCarrosselCallback;
-    this.quantidades = itens.map(() => 1); // Array para armazenar quantidades (inicia em 1)
+    this.quantidades = itens.map(() => 1); // Quantidades iniciais
   }
 
   render() {
@@ -23,7 +23,7 @@ export class Menu {
               <span class="quantity-display" id="quantity-${index}">${this.quantidades[index]}</span>
               <button class="quantity-btn plus" onclick="updateQuantity(${index}, 1)">+</button>
             </div>
-            <button class="add-btn" onclick="${this.adicionarCallback}('${item.nome}', document.getElementById('quantity-${index}').textContent)">
+            <button class="add-btn" onclick="${this.adicionarCallback}('${item.nome}', ${this.quantidades[index]})">
               Adicionar
             </button>
           </div>
@@ -32,14 +32,12 @@ export class Menu {
       .join("");
   }
 
-  // Função para atualizar a quantidade
   updateQuantity(index, change) {
-    this.quantidades[index] = Math.max(1, this.quantidades[index] + change); // Mínimo de 1
+    this.quantidades[index] = Math.max(1, this.quantidades[index] + change);
     document.getElementById(`quantity-${index}`).textContent = this.quantidades[index];
   }
 }
 
-// Função global para atualizar a quantidade (chamada pelos botões +/-)
 window.updateQuantity = (index, change) => {
   const menuInstance = window.menuInstance;
   if (menuInstance) {
