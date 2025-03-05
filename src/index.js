@@ -62,7 +62,9 @@ onValue(
 );
 
 window.adicionar = (item, quantidade) => {
-  pedido.adicionarItem(item, "", quantidade); // Passa a quantidade para o Pedido
+  const qtd = parseInt(quantidade, 10); // Converte a string do DOM para número
+  console.log(`Adicionando ${qtd} de ${item}`); // Log para depuração
+  pedido.adicionarItem(item, "", qtd); // Passa a quantidade como número
   renderizarCardapio();
 };
 
