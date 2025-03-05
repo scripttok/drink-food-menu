@@ -120,7 +120,6 @@ function renderizarCardapio() {
   window.menuInstance = menu;
   app.innerHTML = `
     ${MesaInfo()}
-    <div>${menu.render()}</div>
     <div id="pedidos-list">
       <h2>Itens Selecionados:</h2>
       <ul>
@@ -128,6 +127,7 @@ function renderizarCardapio() {
       </ul>
     </div>
     <button id="enviar-pedido" onclick="enviar()">Enviar Pedido</button>
+    <div>${menu.render()}</div>
   `;
 }
 
