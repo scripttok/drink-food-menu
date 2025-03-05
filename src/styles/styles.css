@@ -278,6 +278,36 @@ h1 {
   background: #38a169;
   transform: scale(1.05);
 }
+/* Campo de observação */
+.observacao-input {
+  width: 150px;
+  padding: 8px 12px;
+  margin-right: 15px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
+  color: #4a5568;
+  background: #f7fafc;
+  transition: border-color 0.2s ease;
+}
+
+.observacao-input:focus {
+  border-color: #4299e1;
+  outline: none;
+}
+
+.observacao-input::placeholder {
+  color: #a0aec0;
+}
+
+/* Ajuste responsivo */
+@media (max-width: 768px) {
+  .observacao-input {
+    width: 100%;
+    margin: 10px 0;
+  }
+}
 
 /* Responsividade */
 @media (max-width: 768px) {
