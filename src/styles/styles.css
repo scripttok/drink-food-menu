@@ -13,9 +13,64 @@ h1 {
   font-size: 32px;
   font-weight: 700;
   color: #2d3748;
-  margin-bottom: 40px;
+  margin-bottom: 20px; /* Reduzido para alinhar com pedidos no topo */
   text-transform: uppercase;
   letter-spacing: 1px;
+}
+
+/* Lista de pedidos (movida para o topo) */
+#pedidos-list {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px; /* Espaço entre pedidos e cardápio */
+}
+
+#pedidos-list h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 15px;
+}
+
+#pedidos-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+#pedidos-list li {
+  padding: 10px 0;
+  border-bottom: 1px solid #edf2f7;
+  font-size: 16px;
+  font-weight: 500;
+  color: #4a5568;
+}
+
+#pedidos-list li:last-child {
+  border-bottom: none;
+}
+
+/* Botão Enviar Pedido (movido para o topo) */
+#enviar-pedido {
+  display: block;
+  width: 220px;
+  margin: 0 auto 20px; /* Ajustado para ficar logo abaixo da lista */
+  padding: 14px 24px;
+  background: #48bb78;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#enviar-pedido:hover {
+  background: #38a169;
+  transform: scale(1.05);
 }
 
 /* Itens do cardápio */
@@ -125,6 +180,29 @@ h1 {
   transform: scale(1.05);
 }
 
+/* Campo de observação */
+.observacao-input {
+  width: 150px;
+  padding: 8px 12px;
+  margin-right: 15px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
+  color: #4a5568;
+  background: #f7fafc;
+  transition: border-color 0.2s ease;
+}
+
+.observacao-input:focus {
+  border-color: #4299e1;
+  outline: none;
+}
+
+.observacao-input::placeholder {
+  color: #a0aec0;
+}
+
 /* Carrossel */
 .carrossel-modal {
   position: fixed;
@@ -143,7 +221,7 @@ h1 {
   position: relative;
   width: 90%;
   max-width: 700px;
-  padding-top: 50px; /* Espaço para o botão de fechar */
+  padding-top: 50px;
 }
 
 .fechar-carrossel {
@@ -171,7 +249,7 @@ h1 {
 
 .swiper-container {
   width: 100%;
-  height: 500px; /* Aumentado para exibir imagens com clareza */
+  height: 500px;
   border-radius: 16px;
   overflow: hidden;
   background: #ffffff;
@@ -224,91 +302,6 @@ h1 {
   background: rgba(49, 130, 206, 0.9);
 }
 
-/* Lista de pedidos */
-#pedidos-list {
-  margin-top: 40px;
-  background: #ffffff;
-  padding: 25px;
-  border-radius: 16px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
-}
-
-#pedidos-list h2 {
-  font-size: 22px;
-  font-weight: 700;
-  color: #2d3748;
-  margin-bottom: 20px;
-}
-
-#pedidos-list ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-#pedidos-list li {
-  padding: 12px 0;
-  border-bottom: 1px solid #edf2f7;
-  font-size: 16px;
-  font-weight: 500;
-  color: #4a5568;
-}
-
-#pedidos-list li:last-child {
-  border-bottom: none;
-}
-
-/* Botão Enviar Pedido */
-#enviar-pedido {
-  display: block;
-  width: 220px;
-  margin: 40px auto 0;
-  padding: 14px 24px;
-  background: #48bb78;
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-#enviar-pedido:hover {
-  background: #38a169;
-  transform: scale(1.05);
-}
-/* Campo de observação */
-.observacao-input {
-  width: 150px;
-  padding: 8px 12px;
-  margin-right: 15px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  font-size: 14px;
-  font-family: 'Poppins', sans-serif;
-  color: #4a5568;
-  background: #f7fafc;
-  transition: border-color 0.2s ease;
-}
-
-.observacao-input:focus {
-  border-color: #4299e1;
-  outline: none;
-}
-
-.observacao-input::placeholder {
-  color: #a0aec0;
-}
-
-/* Ajuste responsivo */
-@media (max-width: 768px) {
-  .observacao-input {
-    width: 100%;
-    margin: 10px 0;
-  }
-}
-
 /* Responsividade */
 @media (max-width: 768px) {
   .menu-item {
@@ -332,6 +325,11 @@ h1 {
     margin: 0 auto 15px;
   }
 
+  .observacao-input {
+    width: 100%;
+    margin: 10px 0;
+  }
+
   .add-btn {
     width: 100%;
   }
@@ -344,7 +342,12 @@ h1 {
     height: 350px;
   }
 
+  #pedidos-list {
+    padding: 15px;
+  }
+
   #enviar-pedido {
     width: 100%;
+    margin: 0 auto 15px;
   }
 }
