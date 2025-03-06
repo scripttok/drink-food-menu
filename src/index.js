@@ -84,11 +84,13 @@ window.remover = (nome) => {
   renderizarCardapio();
 };
 
+// index.js
+// ... (importações e código inicial permanecem iguais)
+
 window.abrirCarrossel = (index) => {
   console.log("Abrindo carrossel para índice:", index);
-  const imagens = itensCardapio[index].imagens;
-  console.log("Imagens do item (detalhado):", JSON.stringify(imagens, null, 2));
-  if (!imagens || imagens.length === 0) {
+  const imagem = itensCardapio[index].imagens[0]; // Usar apenas a primeira imagem
+  if (!imagem) {
     console.error("Nenhuma imagem disponível para o item no índice:", index);
     return;
   }
@@ -97,38 +99,15 @@ window.abrirCarrossel = (index) => {
   carrosselModal.innerHTML = `
     <div class="carrossel-container">
       <button class="fechar-carrossel" onclick="this.parentElement.parentElement.remove()">X</button>
-      <div class="swiper-container">
-        <div class="swiper-wrapper">
-          ${imagens
-            .map(
-              (img) => `
-            <div class="swiper-slide">
-              <img src="${img}" alt="Imagem do produto" onload="console.log('Imagem carregada:', '${img}')" onerror="console.error('Erro ao carregar imagem:', '${img}')">
-            </div>
-          `
-            )
-            .join("")}
-        </div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
+      <div class="imagem-ampliada">
+        <img src="${imagem}" alt="Imagem do produto" onload="console.log('Imagem carregada:', '${imagem}')" onerror="console.error('Erro ao carregar imagem:', '${imagem}')">
       </div>
     </div>
   `;
   document.body.appendChild(carrosselModal);
-
-  try {
-    const swiper = new Swiper(carrosselModal.querySelector(".swiper-container"), {
-      loop: false,
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
-    });
-    console.log("Swiper inicializado com sucesso para índice:", index);
-  } catch (e) {
-    console.error("Erro ao inicializar o Swiper:", e);
-  }
 };
+
+// ... (restante do código permanece igual)
 
 window.abrirModalCategoria = (categoria) => {
   const itensDaCategoria = itensCardapio.filter(item => item.categoria === categoria);
