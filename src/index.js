@@ -130,7 +130,7 @@ function renderizarCardapio() {
   app.innerHTML = `
     ${MesaInfo()}
     <div id="pedidos-list">
-      <h2>Seu Produto:</h2>
+      <h2>Seu Pedido:</h2>
       <ul>
         ${pedido.getItens().map((item) => `
           <li>
