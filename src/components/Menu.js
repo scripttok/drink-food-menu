@@ -10,7 +10,6 @@ export class Menu {
   render() {
     return this.itens
       .map((item, index) => {
-        
         return `
           <div class="menu-item">
             ${
