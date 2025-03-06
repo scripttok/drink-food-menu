@@ -18,7 +18,7 @@ h1 {
   letter-spacing: 1px;
 }
 
-/* Lista de pedidos (movida para o topo) */
+/* Lista de pedidos */
 #pedidos-list {
   background: #ffffff;
   padding: 20px;
@@ -51,7 +51,7 @@ h1 {
   border-bottom: none;
 }
 
-/* Botão Enviar Pedido (movido para o topo) */
+/* Botão Enviar Pedido */
 #enviar-pedido {
   display: block;
   width: 220px;
@@ -71,136 +71,6 @@ h1 {
 #enviar-pedido:hover {
   background: #38a169;
   transform: scale(1.05);
-}
-
-/* Itens do cardápio */
-.menu-item {
-  display: flex;
-  align-items: center;
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 15px;
-  margin: 15px 0;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border: 1px solid #edf2f7;
-}
-
-.menu-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-}
-
-.menu-item-image {
-  width: 70px;
-  height: 70px;
-  border-radius: 12px;
-  object-fit: cover;
-  margin-right: 20px;
-  cursor: pointer;
-  transition: opacity 0.2s ease;
-}
-
-.menu-item-image:hover {
-  opacity: 0.85;
-}
-
-.menu-item-no-image {
-  width: 70px;
-  height: 70px;
-  background: #e2e8f0;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 20px;
-  font-size: 14px;
-  color: #718096;
-  font-weight: 500;
-}
-
-.menu-item span {
-  flex-grow: 1;
-  font-size: 18px;
-  font-weight: 600;
-  color: #2d3748;
-}
-
-/* Controles de quantidade */
-.quantity-control {
-  display: flex;
-  align-items: center;
-  margin-right: 20px;
-  background: #edf2f7;
-  border-radius: 20px;
-  padding: 5px;
-}
-
-.quantity-btn {
-  background: #ffffff;
-  color: #4a5568;
-  border: none;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  font-size: 18px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease;
-}
-
-.quantity-btn:hover {
-  background: #e2e8f0;
-  color: #2d3748;
-}
-
-.quantity-display {
-  margin: 0 12px;
-  font-size: 16px;
-  font-weight: 600;
-  color: #2d3748;
-  min-width: 20px;
-  text-align: center;
-}
-
-.add-btn {
-  background: #4299e1;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease;
-}
-
-.add-btn:hover {
-  background: #3182ce;
-  transform: scale(1.05);
-}
-
-/* Campo de observação */
-.observacao-input {
-  width: 150px;
-  padding: 8px 12px;
-  margin-right: 15px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  font-size: 14px;
-  font-family: 'Poppins', sans-serif;
-  color: #4a5568;
-  background: #f7fafc;
-  transition: border-color 0.2s ease;
-}
-
-.observacao-input:focus {
-  border-color: #4299e1;
-  outline: none;
-}
-
-.observacao-input::placeholder {
-  color: #a0aec0;
 }
 
 /* Lista de categorias */
@@ -240,9 +110,6 @@ h1 {
   background: #3182ce;
   transform: scale(1.05);
 }
-
-/* Modal de categoria */
-/* styles.css */
 
 /* Modal de categoria */
 .categoria-modal {
@@ -442,6 +309,10 @@ h1 {
   outline: none;
 }
 
+.observacao-input::placeholder {
+  color: #a0aec0;
+}
+
 .add-btn {
   background: #4299e1;
   color: #fff;
@@ -458,6 +329,88 @@ h1 {
   background: #3182ce;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Carrossel (simplificado para uma única imagem) */
+.carrossel-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.carrossel-container {
+  position: relative;
+  width: 90%;
+  max-width: 700px;
+  padding-top: 50px;
+}
+
+.fechar-carrossel {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #ffffff;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
+  font-weight: 700;
+  color: #2d3748;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background 0.2s ease, transform 0.2s ease;
+  z-index: 2001;
+}
+
+.fechar-carrossel:hover {
+  background: #edf2f7;
+  transform: scale(1.1);
+}
+
+.imagem-ampliada {
+  width: 100%;
+  height: 500px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.imagem-ampliada img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+/* Botão Remover */
+.remove-btn {
+  background: #e53e3e;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.remove-btn:hover {
+  background: #c53030;
+  transform: scale(1.05);
 }
 
 /* Responsividade */
@@ -498,144 +451,13 @@ h1 {
   .add-btn {
     width: 100%;
   }
-}
 
-/* Carrossel */
-/* styles.css */
-/* ... (estilos existentes permanecem até o carrossel) */
-
-/* Carrossel (simplificado para uma única imagem) */
-.carrossel-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.9);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2000;
-}
-
-.carrossel-container {
-  position: relative;
-  width: 90%;
-  max-width: 700px;
-  padding-top: 50px; /* Espaço para o botão de fechar */
-}
-
-.fechar-carrossel {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: #ffffff;
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  font-size: 24px;
-  font-weight: 700;
-  color: #2d3748;
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: background 0.2s ease, transform 0.2s ease;
-  z-index: 2001;
-}
-
-.fechar-carrossel:hover {
-  background: #edf2f7;
-  transform: scale(1.1);
-}
-
-.imagem-ampliada {
-  width: 100%;
-  height: 500px; /* Mesmo tamanho anterior do carrossel */
-  border-radius: 16px;
-  overflow: hidden;
-  background: #ffffff;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.imagem-ampliada img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain; /* Mantém a proporção sem cortar */
-  border-radius: 12px;
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
   .carrossel-container {
     width: 95%;
   }
 
   .imagem-ampliada {
-    height: 350px; /* Mesmo ajuste anterior */
-  }
-}
-
-/* ... (outros estilos permanecem iguais) */
-
-
-
-
-
-.swiper-slide img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Ajusta para preencher o espaço, cortando excessos */
-  border-radius: 12px;
-}
-
-
-/* Responsividade */
-@media (max-width: 768px) {
-  .menu-item {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 12px;
-  }
-
-  .menu-item-image,
-  .menu-item-no-image {
-    margin: 0 auto 15px;
-  }
-
-  .menu-item span {
-    text-align: center;
-    width: 100%;
-    margin-bottom: 15px;
-  }
-
-  .quantity-control {
-    margin: 0 auto 15px;
-  }
-
-  .observacao-input {
-    width: 100%;
-    margin: 10px 0;
-  }
-
-  .add-btn {
-    width: 100%;
-  }
-
-  .carrossel-container {
-    width: 95%;
-  }
-
-  .swiper-container {
     height: 350px;
-  }
-
-  .swiper-slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
   }
 
   #pedidos-list {
@@ -646,29 +468,7 @@ h1 {
     width: 100%;
     margin: 0 auto 15px;
   }
-}
 
-/* Botão Remover */
-.remove-btn {
-  background: #e53e3e;
-  color: #fff;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-left: 10px;
-  transition: background 0.2s ease, transform 0.2s ease;
-}
-
-.remove-btn:hover {
-  background: #c53030;
-  transform: scale(1.05);
-}
-
-/* Ajuste responsivo */
-@media (max-width: 768px) {
   .remove-btn {
     margin-left: 5px;
     padding: 5px 10px;
