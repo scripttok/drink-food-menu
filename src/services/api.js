@@ -1,6 +1,8 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getDatabase, ref, push, update, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
+console.log("Iniciando carregamento do api.js");
+
 const firebaseConfig = {
   apiKey: "AIzaSyAto25h5ZeIJ6GPlIsyuXAdc4igrgMgzhk",
   authDomain: "bar-do-cesar.firebaseapp.com",
@@ -12,8 +14,13 @@ const firebaseConfig = {
   measurementId: "G-7SZT212JXN",
 };
 
+console.log("Configuração do Firebase definida:", firebaseConfig);
+
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
+
+
+console.log("Firebase inicializado e banco de dados obtido");
 
 async function getFichasTecnicas() {
   const snapshot = await get(ref(db, "fichasTecnicas"));
@@ -23,47 +30,50 @@ async function getFichasTecnicas() {
 }
 
 export async function criarOuVerificarMesa(numeroMesa) {
+  console.log(`Iniciando criarOuVerificarMesa para mesa: ${numeroMesa}`);
   try {
     const mesasRef = ref(db, "mesas");
+    console.log("Consultando nó 'mesas' no Firebase");
     const snapshot = await get(mesasRef);
     const mesas = snapshot.val() || {};
+    console.log("Mesas existentes no Firebase:", mesas);
     
-    // Verifica se já existe uma mesa com esse número
     const mesaExistente = Object.values(mesas).find(m => m.numero === numeroMesa);
     if (mesaExistente) {
-      console.log(`Mesa ${numeroMesa} já existe no Firebase.`);
+      console.log(`Mesa ${numeroMesa} já existe com ID: ${mesaExistente.id}`);
       return;
     }
 
-    // Cria a mesa se não existir
+    console.log(`Mesa ${numeroMesa} não encontrada, criando nova mesa`);
     const novaMesa = {
       numero: numeroMesa,
-      nomeCliente: `Cliente Mesa ${numeroMesa}`, // Nome genérico
+      nomeCliente: `Cliente Mesa ${numeroMesa}`,
       pedidos: [],
       posX: 0,
       posY: 0,
       status: "aberta",
       createdAt: { ".sv": "timestamp" },
     };
-    await push(mesasRef, novaMesa);
-    console.log(`Mesa ${numeroMesa} criada com sucesso no Firebase.`);
+    const novaMesaRef = await push(mesasRef, novaMesa);
+    console.log(`Mesa ${numeroMesa} criada com sucesso, chave: ${novaMesaRef.key}`);
   } catch (error) {
-    console.error("Erro ao criar/verificar mesa:", error);
+    console.error("Erro em criarOuVerificarMesa:", error);
     throw error;
   }
 }
 
 async function removerEstoque(itemId, quantidade) {
+  console.log(`Removendo estoque para ${itemId}, quantidade: ${quantidade}`);
   const refEstoque = ref(db, `estoque/${itemId}`);
   const snapshot = await get(refEstoque);
   const item = snapshot.val();
   if (!item) throw new Error(`Item "${itemId}" não encontrado no estoque.`);
   const novaQuantidade = Math.max(0, (item.quantidade || 0) - quantidade);
   await update(refEstoque, { quantidade: novaQuantidade });
-  console.log(`Removido do estoque: ${itemId}, quantidade: ${quantidade}, novo total: ${novaQuantidade}`);
+  console.log(`Estoque atualizado: ${itemId}, novo total: ${novaQuantidade}`);
 }
-
 export async function enviarPedido(mesa, itens) {
+  console.log(`Iniciando envio de pedido para mesa: ${mesa}, itens:`, itens);
   try {
     const fichasTecnicas = await getFichasTecnicas();
     const estoqueSnapshot = await get(ref(db, "estoque"));
@@ -124,6 +134,7 @@ export async function enviarPedido(mesa, itens) {
     alert("Pedido enviado para a cozinha!");
     console.log("Pedido enviado:", pedido);
   } catch (error) {
+    console.error("Erro ao enviar pedido:", error);
     alert("Erro ao enviar o pedido: " + error.message);
     console.error("Erro ao enviar pedido:", error);
   }
