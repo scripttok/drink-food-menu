@@ -1,7 +1,7 @@
 import { MesaInfo } from "./components/MesaInfo.js";
 import { Menu } from "./components/Menu.js";
 import { Pedido } from "./components/Pedido.js";
-import { enviarPedido } from "./services/api.js";
+import { enviarPedido, criarOuVerificarMesa } from "./services/api.js";
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import {
   getDatabase,
