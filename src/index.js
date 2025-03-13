@@ -35,6 +35,11 @@ const baseUrl = "https://scripttok.github.io/drink-food-menu";
 
 const pedido = new Pedido(mesa);
 
+criarOuVerificarMesa(mesa).catch(error => {
+  console.error("Erro ao inicializar mesa:", error);
+  app.innerHTML += `<p>Erro ao carregar a mesa: ${error.message}</p>`;
+});
+
 let itensCardapio = [];
 let categorias = [];
 const cardapioRef = ref(db, "cardapio");
