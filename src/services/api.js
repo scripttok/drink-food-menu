@@ -139,3 +139,5 @@ export async function enviarPedido(mesa, itens) {
     console.error("Erro ao enviar pedido:", error);
   }
 }
+
+console.log("api.js carregado com sucesso");
