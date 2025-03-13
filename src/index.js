@@ -9,6 +9,8 @@ import {
   onValue,
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
+console.log("Iniciando carregamento do index.js");
+
 const firebaseConfig = {
   apiKey: "AIzaSyAto25h5ZeIJ6GPlIsyuXAdc4igrgMgzhk",
   authDomain: "bar-do-cesar.firebaseapp.com",
@@ -20,32 +22,42 @@ const firebaseConfig = {
   measurementId: "G-7SZT212JXN",
 };
 
+console.log("Configuração do Firebase definida no index.js");
+
 let appFirebase;
 if (!getApps().length) {
   appFirebase = initializeApp(firebaseConfig);
 } else {
   appFirebase = getApps()[0];
+  console.log("Usando instância existente do Firebase");
 }
 const db = getDatabase(appFirebase);
+console.log("Banco de dados Firebase obtido no index.js");
 
 const app = document.getElementById("app");
 const urlParams = new URLSearchParams(window.location.search);
 const mesa = urlParams.get("mesa") || "N/A";
+console.log(`Número da mesa extraído da URL: ${mesa}`);
 const baseUrl = "https://scripttok.github.io/drink-food-menu";
 
 const pedido = new Pedido(mesa);
 
+console.log("Instância de Pedido criada para mesa:", mesa);
+
 criarOuVerificarMesa(mesa).catch(error => {
   console.error("Erro ao inicializar mesa:", error);
+
   app.innerHTML += `<p>Erro ao carregar a mesa: ${error.message}</p>`;
 });
 
 let itensCardapio = [];
 let categorias = [];
 const cardapioRef = ref(db, "cardapio");
+console.log("Configurando listener para o cardápio");
 onValue(
   cardapioRef,
   (snapshot) => {
+    console.log("Dados do cardápio recebidos do Firebase");
     const data = snapshot.val();
     if (data) {
       itensCardapio = [];
@@ -61,11 +73,14 @@ onValue(
           });
         });
       });
+      console.log("Itens do cardápio processados:", itensCardapio);
+      console.log("Categorias disponíveis:", categorias);
       console.log("Itens do cardápio carregados (com categorias e descrição):", JSON.stringify(itensCardapio, null, 2));
       console.log("Categorias disponíveis:", categorias);
     } else {
       itensCardapio = [];
       categorias = [];
+      console.log("Nenhum dado de cardápio encontrado");
     }
     renderizarCardapio();
   },
