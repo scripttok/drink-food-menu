@@ -22,6 +22,37 @@ async function getFichasTecnicas() {
   return data;
 }
 
+export async function criarOuVerificarMesa(numeroMesa) {
+  try {
+    const mesasRef = ref(db, "mesas");
+    const snapshot = await get(mesasRef);
+    const mesas = snapshot.val() || {};
+    
+    // Verifica se já existe uma mesa com esse número
+    const mesaExistente = Object.values(mesas).find(m => m.numero === numeroMesa);
+    if (mesaExistente) {
+      console.log(`Mesa ${numeroMesa} já existe no Firebase.`);
+      return;
+    }
+
+    // Cria a mesa se não existir
+    const novaMesa = {
+      numero: numeroMesa,
+      nomeCliente: `Cliente Mesa ${numeroMesa}`, // Nome genérico
+      pedidos: [],
+      posX: 0,
+      posY: 0,
+      status: "aberta",
+      createdAt: { ".sv": "timestamp" },
+    };
+    await push(mesasRef, novaMesa);
+    console.log(`Mesa ${numeroMesa} criada com sucesso no Firebase.`);
+  } catch (error) {
+    console.error("Erro ao criar/verificar mesa:", error);
+    throw error;
+  }
+}
+
 async function removerEstoque(itemId, quantidade) {
   const refEstoque = ref(db, `estoque/${itemId}`);
   const snapshot = await get(refEstoque);
